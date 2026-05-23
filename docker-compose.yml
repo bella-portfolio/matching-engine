@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  matching-engine:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      - PORT=8080
+      - GOMAXPROCS=1
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 512M
+    restart: unless-stopped
+
+  # For benchmark: runs k6 against the engine
+  benchmark:
+    image: grafana/k6:latest
+    depends_on:
+      - matching-engine
+    volumes:
+      - ./scripts/load-test.js:/scripts/load-test.js
+    command: run /scripts/load-test.js
+    network_mode: host
+    profiles:
+      - benchmark

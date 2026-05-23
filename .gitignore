@@ -1,0 +1,12 @@
+# Matching Engine binary
+matching-engine
+
+# IDE
+.idea/
+.vscode/
+
+# OS
+.DS_Store
+
+# Test output
+/tmp/k6-output.txt
